@@ -69,6 +69,18 @@ ___
 
 ## 📌 Docker
 
+### Docker? VM?
+<img width="737" alt="image" src="https://user-images.githubusercontent.com/40768187/175973620-fb132183-c819-4189-abc4-41947494c6d1.png">
+
+- VM 은 Hypervisor라는 중간 SW를 통해 가상환경을 만들고, Guest OS를 포함함</br>
+- Docker 는 Guest OS 를 포함하고 있지 않아 VM 보다 가벼움</br>
+서비스 운영 환경은 Host OS에 비의존</br>
+서비스 운영 환경을 이미지로 만들고 이를 배포하여 운영되면 컨테이너가 됨.
+언제 어디서나 동일한 환경에서 실행
+</br>
+
+### Docker 설치
+
 Docker는 가상머신 위에 Ubuntu 20.04LTS 버전을 올려 설치 진행하였습니다.
 
 항상 처음엔 패키지 매니저 업데이트, 업그레이드 필수
