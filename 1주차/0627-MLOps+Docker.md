@@ -19,6 +19,7 @@ tasks in T, as measured by P, improves with experience E.
   - Reinforcement Learning
 
 ![The-main-types-of-machine-learning-Main-approaches-include-classification-and](https://user-images.githubusercontent.com/40768187/175952246-bd77df04-2fa3-44ef-b5c3-ddba7235d0a7.png)
+
 출처: https://www.researchgate.net/figure/The-main-types-of-machine-learning-Main-approaches-include-classification-and_fig1_354960266
 
 ___
@@ -149,6 +150,7 @@ Docker Engine을 설치하기 전에 Docker repository 설정이 필요함</br>
     ```
 
     ![image](https://user-images.githubusercontent.com/40768187/175965494-1d467855-9906-42cd-8ce4-6d3255f00861.png)
+    
     위와 같은 문장이 나오면 정상 설치 🎉🎉
 
 
