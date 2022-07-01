@@ -176,14 +176,14 @@ curl -X GET $(minikube ip):<PORT>
 # 이렇게 서비스를 통해서 클러스터 외부에서도 정상적으로 pod 에 접속할 수 있는 것을 확인합니다.
 ```
 <img width="376" alt="image" src="https://user-images.githubusercontent.com/40768187/176714794-81a16c2f-a6b9-48b0-912d-a0fb92fb889a.png">
+
 </br>
 Pod에 접속하는 구조에 대해 좀 더 이해하기 위해 이미지를 첨부했다.
+</br>(해당 실습에서는 NodePort의 포트번호가 31370 이었다.)
 
 </br>
 
 ```
-해당 실습에서는 NodePort의 포트번호가 31370 이었다.
-
 출처: https://blog.naver.com/PostView.naver?blogId=love_tolty&logNo=222499841070&categoryNo=0&parentCategoryNo=0&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView
 ```
 
@@ -338,7 +338,7 @@ sudo apt install dvc
    ```
 
 5) data가 실제로 저장될 remote sotrage 세팅
-   - 본인의 구글 드라이브에 새로운 폴더를 하나 생성해주고, url의 마지막 부분을 복사</br>
+   - 본인의 구글 드라이브에 새로운 폴더를 하나 생성해주고, url의 마지막 부분을 복사</br></br>
     <img width="596" alt="스크린샷 2022-07-01 오전 12 55 28" src="https://user-images.githubusercontent.com/40768187/176723351-3f262c76-ecd9-49ff-86bd-d170fd557425.png">
     </br>
 
@@ -394,6 +394,7 @@ sudo apt install dvc
 2) dvc checkout
    - data의 버전을 변경하는 명령어
    - 실습을 위해 새로운 버전의 data를 push
+
         ```
         # 데이터를 변경합니다. (새로운 데이터를 같은 이름으로 copy 해와도 좋습니다.)
         vi data/demo.txt
@@ -414,6 +415,7 @@ sudo apt install dvc
         (git push) # .dvc 파일을 git repository 에 업로드
         ```
     - 이전 버전의 data로 되돌아가기
+  
         ```
         # git log 를 확인합니다.
         git log --oneline
@@ -434,7 +436,7 @@ sudo apt install dvc
 
 ## 📌 MLflow
 
-MLflow 이전의 작업
+### MLflow 이전의 작업
  - 비슷한 작업이 반복적으로 발생
  - Dependency 패키지들이 많고, 버전관리가 어려움
  - 사람 Dependency 생김
@@ -512,7 +514,7 @@ mlflow ui -h 0.0.0.0 -p 5000 # publicIP:5000 으로 접속
 ```
 ![11](https://user-images.githubusercontent.com/40768187/176802510-d4827c73-64a7-4dc8-a1a8-34843afcac94.png)
 </br>
-접속 완료 !
+**접속 완료 !**
 
 ![Untitled (2)](https://user-images.githubusercontent.com/40768187/176802221-5191f74d-23b2-489c-b0a6-2c63419585b6.png)
 
