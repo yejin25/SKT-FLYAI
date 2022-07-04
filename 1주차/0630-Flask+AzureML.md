@@ -214,8 +214,41 @@
     <img width="1656" alt="스크린샷 2022-07-02 오후 10 36 24" src="https://user-images.githubusercontent.com/40768187/177003813-6861fc77-6f24-4757-a88d-df35ef651da9.png">
 
 2. New pipeline 에서 ```+``` 모양 선택 (```Easy-to-user prebuilt components```)
-3. 원하는 component 검색 후 작성 (AutoSave 켜놓으면 좋음 ^^)
-   <캡쳐본 추후 추가>
+3. 원하는 component 검색 후 오른쪽으로 드래그해서 놓고, component 클릭 후 설정
+
+    ![KakaoTalk_Photo_2022-07-04-21-04-42](https://user-images.githubusercontent.com/40768187/177152820-20134c78-7b39-4a3c-bc26-dcfeefd26031.png)
+
+    ![KakaoTalk_Photo_2022-07-04-21-04-47](https://user-images.githubusercontent.com/40768187/177152888-c9d83224-7ab5-4a70-b888-173ba5060884.png)
+
+    Split Rows : 열단위로 쪼개기 </br>
+    Fraction of rows in the first output dataset : test 데이터, training 데이터의 비율 조절
+
+    </br>
+
+    ![KakaoTalk_Photo_2022-07-04-21-04-51](https://user-images.githubusercontent.com/40768187/177152962-0943d0e4-04ee-429f-9e7f-7f94aaea2a75.png)
+
+    <img width="1660" alt="image" src="https://user-images.githubusercontent.com/40768187/177154140-a0a706e9-1e84-4038-969a-35127d122a10.png">
+
+4. Settings 에서 compute instance 지정해주기
+   
+   ![KakaoTalk_Photo_2022-07-04-21-05-01](https://user-images.githubusercontent.com/40768187/177153400-872cd383-46b0-4382-91bc-a8ae76d8bbd7.png)
+
+
+5. 결과 보기
+   
+    ![KakaoTalk_Photo_2022-07-04-21-05-24](https://user-images.githubusercontent.com/40768187/177153116-15054fff-ea75-4a5a-9239-3853b533f4a8.png)
+
+    Enter Data Manually 의 동그라미에 오른쪽 클릭 후에 ```Preview data``` 선택 후 나오는 화면
+
+    ![image](https://user-images.githubusercontent.com/40768187/177153260-0550da9f-63cc-48d1-994f-bd47f8dc388b.png)
+
+    Scored_dataset 의 ```Preview data```
+
+    <img width="1665" alt="image" src="https://user-images.githubusercontent.com/40768187/177156564-1ca315ae-9fe0-443d-b2ae-5729d027464b.png">
+
+    Evaluation_results 의 ```Preview data```
+
+    <img width="1671" alt="image" src="https://user-images.githubusercontent.com/40768187/177156937-37841a8d-1c69-499c-bc9d-d7aa961ecb67.png">
 
 </br>
 
