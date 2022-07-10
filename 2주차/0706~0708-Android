@@ -1,0 +1,1626 @@
+# 2주차 2022 07 06 ~ 2022 07 08
+</br>
+
+## 📌 Android
+
+### 개발 환경 구축
+
+- JDK
+  - 환경 변수 설정 (PAHT 지정) -> 구글링 하면 하는 법 많이 나와있음
+- Android Studio IDE
+  - SDK Android 10.0 (Q) 이상으로 설치
+  - AVD: Nexus 6P, S (API 31) 로 생성
+
+</br>
+
+### 프로젝트 구조 및 실행 과정
+
+</br>
+
+<img width="966" alt="image" src="https://user-images.githubusercontent.com/40768187/178000035-ddc9b81f-1f5d-4800-9312-878f1d7a292d.png">
+
+</br>
+
+### 프로젝트 생성 폴더
+
+- **.gradle**: 빌드 환경 설정
+- **.idea**: Copyright, scope 등 설정
+- **app**: App 관련 source, resource 파일, 컴파일 후 생성되는 class 파일
+- **gradle**: Gradle wrapper는 적절한 Gradle binary를 자동으로 다운로드해주는 기능
+- **.gitignore**: Git에서 프로젝트 별 ignore할 필요가 있는 파일 및 폴더 설정
+- **build.gradle**: module의 빌드 방법이 정의된 script, 빌드에 사용할 SDK 버전, 앱 버전, 라이브러리 등 설정
+- **gradle.properties**: Gradle 속성 저장
+- **gradlew**: Gradle wrapper를 통해 빌드를 진행하기 위한 script
+- **gradlew.bat**: Gradle wrapper를 통해 빌드를 진행하기 위한 script
+- **local.properties**: Android SDK 폴더 지정
+- **settings.gradle**: Gradle 설정
+
+</br>
+
+### app 폴더
+
+</br>
+
+<img width="855" alt="image" src="https://user-images.githubusercontent.com/40768187/178004166-d21b824f-3a1f-46d4-9b67-f9c71eebc799.png">
+
+</br>
+
+### Apk 파일 생성
+
+```Build``` > ```Generate Signed Bundle / APK ...``` > APK 선택 > Kesy store ```Create new```
+
+</br>
+
+<img width="580" alt="image" src="https://user-images.githubusercontent.com/40768187/178006121-17c02919-9773-41f6-abb2-5f2e99c4f2c6.png">
+
+</br>
+
+- Alias: apk 파일 별명
+- validity: 사용 기간
+
+</br>
+
+```Next``` > ```Destination Folder``` 선택 후 ```release``` 선택 > ```Finish```
+
+**+) 안드로이드 7.0 부터는 v2의 새로운 서명 방식이 사용 가능함**
+</br>v1, v2 두가지 모두 체크하는 것이 플랫폼에서 정상적으로 설치될 수 있어서 좋음
+
+Key store path 에 가보면 jks 파일이 생성 되어 있고, Destination Folder에 가보면 apk 파일이 생성되어 있음
+
+</br>
+
+## 📌 Android Sensor 사용하기
+
+### Sensor 종류
+</br>
+
+<img width="896" alt="image" src="https://user-images.githubusercontent.com/40768187/178008616-0c1f7e83-b4e2-48df-b84d-e7c1234c70da.png">
+
+</br>
+
+### AVD에서 Sensor 값 조정하기
+
+</br>
+
+<img width="1423" alt="image" src="https://user-images.githubusercontent.com/40768187/178036995-69976a72-c677-46a0-8640-a561734aa32b.png">
+
+</br>
+
+AVD 의 메뉴 탭에서 ```...``` 을 선택하고, Virtual sensors 탭에 들어가면 센서 시뮬을 해볼 수 있음
+
+</br>
+
+### Sensor Code
+</br>
+
+<img width="504" alt="image" src="https://user-images.githubusercontent.com/40768187/178086810-49a2ace4-023a-4b37-937f-513845c412ab.png">
+
+</br>
+
+1. Sensor Manger Object 선언
+
+    ```java
+    SensorManger objSMG;
+    ```
+
+</br>
+
+2. Sensor Object 선언
+    ```java
+    Sensor sensor_Gravity;
+    ```
+
+    </br>
+
+3. onCreate() method - Sensor Manager Object 지정
+   ```java
+    objSMG = (SensorManager) getSystemService(SENSOR_SERVICE);
+   ```
+
+   </br>
+
+4. onCreate() method - Sensor Object 지정
+   ```java
+    sensor_Gravity = objSMG.getDefaultSensor(Sensor.TYPE_GRAVITY);
+   ```
+
+   </br>
+
+5. onResume() method - Register listener 지정
+   ```java
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        objSMG.registerListener((SensorEventListener) this, sensor_Gravity, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+   ```
+
+   </br>
+
+6. onPause() method - Register listener 해제
+   ```java
+    @Override
+    public void onPause(){
+        super.onPause();
+        objSMG.unregisterListener((SensorEventListener) this);
+    }
+   ```
+
+   </br>
+
+7. onSensorChanged() method - sensor 값 변화 처리
+   ```java
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent){
+        switch (sensorEvent.sensor.getType()){
+            case Sensor.TYPE_GRAVITY:
+                objTv_X_Gravity.setText(("X: " + sensorEvent.values[0]));
+                objTv_Y_Gravity.setText(("Y: " + sensorEvent.values[1]));
+                objTv_Z_Gravity.setText(("Z: " + sensorEvent.values[2]));
+                break;
+        }
+    }
+   ```
+
+   </br>
+
+8. onAccuracyChanged() method - sensor 값 변화 처리
+    ```java
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i){
+        //Call when sensor accuracy changed
+    }
+    ```
+
+</br>
+
+#### All Sensor Code
+
+</br>
+
+- Activiy java code
+
+    <details>
+    <summary>코드 보기</summary>
+
+        ```java
+        package com.example.motionsensor_source;
+
+        import androidx.appcompat.app.AppCompatActivity;
+
+        import android.hardware.Sensor;
+        import android.hardware.SensorEvent;
+        import android.hardware.SensorEventListener;
+        import android.hardware.SensorManager;
+        import android.os.Bundle;
+        import android.widget.TextView;
+
+        import org.w3c.dom.Text;
+
+        public class MainActivity extends AppCompatActivity implements SensorEventListener {
+
+            SensorManager objSMG;
+
+            Sensor sensor_Gravity;
+            Sensor sensor_Accelerometer;
+            Sensor sensor_LinearAcceleration;
+            Sensor sensor_Gyroscope;
+
+            TextView objTv_X_Gravity;
+            TextView objTv_Y_Gravity;
+            TextView objTv_Z_Gravity;
+
+            TextView objTv_X_Accelerometer;
+            TextView objTv_Y_Accelerometer;
+            TextView objTv_Z_Accelerometer;
+
+
+            TextView objTv_X_LinearAcceleration;
+            TextView objTv_Y_LinearAcceleration;
+            TextView objTv_Z_LinearAcceleration;
+
+            TextView objTv_X_Gyroscope;
+            TextView objTv_Y_Gyroscope;
+            TextView objTv_Z_Gyroscope;
+
+
+
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_main);
+
+                objSMG = (SensorManager) getSystemService(SENSOR_SERVICE);
+                sensor_Gravity = objSMG.getDefaultSensor(Sensor.TYPE_GRAVITY);
+                sensor_Accelerometer = objSMG.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+                sensor_LinearAcceleration = objSMG.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+                sensor_Gyroscope = objSMG.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+
+                objTv_X_Gravity = findViewById(R.id.txtX_Gravity);
+                objTv_Y_Gravity = findViewById(R.id.txtY_Gravity);
+                objTv_Z_Gravity = findViewById(R.id.txtZ_Gravity);
+
+                objTv_X_Accelerometer = findViewById(R.id.txtX_Accelerometer);
+                objTv_Y_Accelerometer = findViewById(R.id.txtY_Accelerometer);
+                objTv_Z_Accelerometer = findViewById(R.id.txtZ_Accelerometer);
+
+                objTv_X_LinearAcceleration = findViewById(R.id.txtX_LinearAccelerometer);
+                objTv_Y_LinearAcceleration = findViewById(R.id.txtY_LinearAccelerometer);
+                objTv_Z_LinearAcceleration = findViewById(R.id.txtZ_LinearAccelerometer);
+
+                objTv_X_Gyroscope = findViewById(R.id.txtX_Gyroscope);
+                objTv_Y_Gyroscope = findViewById(R.id.txtY_Gyroscope);
+                objTv_Z_Gyroscope = findViewById(R.id.txtZ_Gyroscope);
+            }
+
+            @Override
+            public void onResume(){
+                super.onResume();
+
+                objSMG.registerListener((SensorEventListener) this, sensor_Gravity, SensorManager.SENSOR_DELAY_NORMAL);
+                objSMG.registerListener((SensorEventListener) this, sensor_Accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+                objSMG.registerListener((SensorEventListener) this, sensor_LinearAcceleration, SensorManager.SENSOR_DELAY_NORMAL);
+                objSMG.registerListener((SensorEventListener) this, sensor_Gyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+            }
+
+            @Override
+            public void onPause(){
+                super.onPause();
+                objSMG.unregisterListener((SensorEventListener) this);
+            }
+
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent){
+                switch (sensorEvent.sensor.getType()){
+                    case Sensor.TYPE_GRAVITY:
+                        objTv_X_Gravity.setText(("X: " + sensorEvent.values[0]));
+                        objTv_Y_Gravity.setText(("Y: " + sensorEvent.values[1]));
+                        objTv_Z_Gravity.setText(("Z: " + sensorEvent.values[2]));
+                        break;
+                    case Sensor.TYPE_ACCELEROMETER:
+                        objTv_X_Accelerometer.setText(("X: " + sensorEvent.values[0]));
+                        objTv_Y_Accelerometer.setText(("Y: " + sensorEvent.values[1]));
+                        objTv_Z_Accelerometer.setText(("Z: " + sensorEvent.values[2]));
+                        break;
+                    case Sensor.TYPE_LINEAR_ACCELERATION:
+                        objTv_X_LinearAcceleration.setText(("X: " + sensorEvent.values[0]));
+                        objTv_Y_LinearAcceleration.setText(("Y: " + sensorEvent.values[1]));
+                        objTv_Z_LinearAcceleration.setText(("Z: " + sensorEvent.values[2]));
+                        break;
+                    case Sensor.TYPE_GYROSCOPE:
+                        objTv_X_Gyroscope.setText(("X: " + sensorEvent.values[0]));
+                        objTv_Y_Gyroscope.setText(("Y: " + sensorEvent.values[1]));
+                        objTv_Z_Gyroscope.setText(("Z: " + sensorEvent.values[2]));
+                        break;
+                }
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i){
+
+            }
+        }
+        ```
+    </details>
+
+</br>
+
+- layout
+    <details>
+    <summary>코드 보기</summary>
+
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/txtTitle_Gravity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#CACACA"
+                android:text="Gravity"
+                android:textAlignment="center"
+                android:textStyle="normal|bold"
+                android:textSize="18sp"
+                android:layout_marginTop="20dp"
+                />
+            <TextView
+                android:id="@+id/txtX_Gravity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="X: "
+                />
+            <TextView
+                android:id="@+id/txtY_Gravity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Y: "
+                />
+            <TextView
+                android:id="@+id/txtZ_Gravity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Z: "
+                android:layout_marginBottom="30dp"
+                />
+
+            <TextView
+                android:id="@+id/txtTitle_Accelerometer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="#FFC107"
+                android:text="Accelerometer"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="normal|bold" />
+            <TextView
+                android:id="@+id/txtX_Accelerometer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="X: "
+                />
+            <TextView
+                android:id="@+id/txtY_Accelerometer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Y: "
+                />
+            <TextView
+                android:id="@+id/txtZ_Accelerometer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Z: "
+                android:layout_marginBottom="30dp"
+                />
+
+            <TextView
+                android:id="@+id/txtTitle_LinearAccelerometer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="#FF9800"
+                android:text="Linear Accelerometer"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="normal|bold" />
+            <TextView
+                android:id="@+id/txtX_LinearAccelerometer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="X: "
+                />
+            <TextView
+                android:id="@+id/txtY_LinearAccelerometer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Y: "
+                />
+            <TextView
+                android:id="@+id/txtZ_LinearAccelerometer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Z: "
+                android:layout_marginBottom="30dp"
+                />
+
+            <TextView
+                android:id="@+id/txtTitle_Gyroscope"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="#A1DD5B"
+                android:text="Gyroscope"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="normal|bold" />
+            <TextView
+                android:id="@+id/txtX_Gyroscope"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="X: "
+                />
+            <TextView
+                android:id="@+id/txtY_Gyroscope"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Y: "
+                />
+            <TextView
+                android:id="@+id/txtZ_Gyroscope"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Z: "
+                />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    ```
+    </details>
+
+</br>
+
+### Sensor Code - 응용
+</br>
+
+![진동](https://user-images.githubusercontent.com/40768187/178110288-80f7f854-23dd-4a73-9d51-e8da11f8085e.gif)
+
+
+
+Proximity Sensor 를 이용하여 5cm 이하로 접근하면 진동하면서 emoticon이 변경되도록 구현
+
+</br>
+
+1. resource 이미지 파일 넣기
+</br>
+
+    <img width="410" alt="image" src="https://user-images.githubusercontent.com/40768187/178110035-2ef3ef52-6c4c-48dd-ac66-79ed0dd4e88b.png">
+
+    ```res``` > ```drawable``` 에 저장
+
+    </br>
+
+2. UI 설계
+
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/emoticon1"
+                />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    ```
+
+</br>
+
+3. 애니메이션을 위한 xml 파일 작성
+
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <set xmlns:android="http://schemas.android.com/apk/res/android">
+        <translate
+            android:fromYDelta="-2%"
+            android:toYDelta="2%"
+            android:duration="100"
+            android:repeatCount="10"
+        />
+    </set>
+    ```
+    ```res``` 파일 하위 파일로 ```anim``` 을 만들고 xml 파일 생성 후 작성
+
+</br>
+
+4. ```AndroidManifest.xml``` 에서 권한 주기
+
+    ```xml
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    ```
+
+</br>
+
+5. onSensorChanged(), onAccuracyChanged() method
+   
+   ```java
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if(event.sensor.getType() == Sensor.TYPE_PROXIMITY){
+            if(event.values[0] <= 5){
+                Animation objANI = AnimationUtils.loadAnimation(this, R.anim.jumping);
+                imageView.setImageResource(R.drawable.emoticon2);
+                imageView.startAnimation(objANI);
+                vibrator.vibrate(1000);
+            }
+            else{
+                imageView.setImageResource(R.drawable.emoticon1);
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+   ```
+
+6. 나머지 코드는 위에서 작성한 코드 사용하면 됨 (```imageView``` 선언 잊지 말 것)
+
+___
+
+</br>
+</br>
+
+![전구](https://user-images.githubusercontent.com/40768187/178112069-30f70932-d455-481e-b49b-2ba3e6197bfb.gif)
+
+Light sensor를 활용하여 조도가 80 lux이하이면 SmartPhone의 flashlight를 turn-on 시키도록 구현
+
+</br>
+
+1. ```res``` > ```Drawable``` 에 이미지 파일 복붙 (위 실습의 이모티콘 이미지처럼 넣으면 됨)
+
+</br>
+
+2. UI 설계
+
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+        <TextView
+            android:id="@+id/txtLux"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Lux"
+            android:textSize="15sp"
+            android:textAlignment="center"
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="145dp"
+                android:layout_height="206dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/lightoff" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    ```
+
+</br>
+
+4. ```AndroidManifest.xml``` 에서 권한 주기
+
+    ```xml
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera.flash"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    ```
+
+강의 자료의 코드대로 진행하면 실행되지 않아 다른 코드를 찾아 작성하였음
+
+5. onCreate() method
+
+    ```java
+        SensorManager objSMG;
+        Sensor sensor_Illuminance;
+        
+        ImageView objIMG;
+        TextView objTV_Lux;
+
+        CameraManager mCameraManager = null;
+        boolean mCameraFlag = false; //TODO [ON = true / OFF = false]
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+
+            objSMG = (SensorManager) getSystemService(SENSOR_SERVICE);
+            sensor_Illuminance = objSMG.getDefaultSensor(Sensor.TYPE_LIGHT);
+
+            objIMG = findViewById(R.id.imageView);
+            objTV_Lux = findViewById(R.id.txtLux);
+        }
+    ```
+
+</br>
+
+6. onResume(), onPause(), onDestroy() mthond
+
+    ```java
+        @Override
+        protected void onResume() {
+            super.onResume();
+
+            objSMG.registerListener(this, sensor_Illuminance, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+
+        @Override
+        protected void onPause() {
+            super.onPause();
+            objSMG.unregisterListener(this);
+        }
+
+        @Override
+        protected void onDestroy() {
+            super.onDestroy();
+        }
+    ```
+
+</br>
+
+7. onSensorChanged() method 
+
+    원래는 ```cameraFlashON``` 메소드를 호출하는 게 아니라 ```setFlashMode```로 바로 켜주려 했으나, </br>
+    ```cameraParameter``` 가 계속 null 값이 들어가서 변경함
+   
+    ```java
+        @Override
+            public void onSensorChanged(SensorEvent event) {
+                if(event.sensor.getType() == Sensor.TYPE_LIGHT) {
+                    int iLux = (int) event.values[0];
+                    objTV_Lux.setText(("Lux: " + iLux));
+
+                    if (iLux <= 80) {
+                        objIMG.setImageResource(R.drawable.lighton);
+                        cameraFlashON();
+                    } else {
+                        objIMG.setImageResource(R.drawable.lightoff);
+
+                        cameraFlashOFF();
+                    }
+                }
+            }
+    ```
+
+</br>
+
+8. cameraFlashON(), cameraFlashOFF() method
+
+    <details>
+    <summary>코드 보기</summary>
+
+    ```java
+    public void cameraFlashON(){
+            //TODO [hasSystemFeature FEATURE_CAMERA_FLASH 사용해 후레쉬 지원 체크 실시]
+            if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) { // [카메라 후레쉬 기능 지원]
+                try {
+                        mCameraManager = (CameraManager) getSystemService(CAMERA_SERVICE); // [카메라 객체 서비스 생성]
+                        String cameraId = ""; // [카메라 아이디 값 저장]
+                        for (String id : mCameraManager.getCameraIdList()) { // [카메라 아이디 값 찾음]
+                            CameraCharacteristics c = mCameraManager.getCameraCharacteristics(id);
+                            Boolean flashAvailable = c.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+                            Integer lensFacing = c.get(CameraCharacteristics.LENS_FACING);
+                            if (flashAvailable != null && lensFacing == CameraCharacteristics.LENS_FACING_BACK) {
+                                cameraId = id;
+                                break;
+                            }
+                        }
+                        if(cameraId != null && cameraId.length() > 0 && !cameraId.equals("") && !cameraId.contains("null")){
+                            if(mCameraFlag == false){ // [카메라가 OFF 상태일 경우]
+                                mCameraManager.setTorchMode(cameraId, true);
+                                mCameraFlag = true;
+                            }
+                        }
+                        else {
+                            mCameraFlag = false;
+                            Toast.makeText(getApplication(), "카메라 아이디 값을 확인하지 못했습니다.",Toast.LENGTH_SHORT).show();
+                        }
+
+                } catch (Exception e) {
+                    mCameraFlag = false;
+                    e.printStackTrace();
+                }
+            }
+            else { // [카메라 후레쉬 기능 지원 안함]
+                mCameraFlag = false;
+                Toast.makeText(getApplication(), "카메라 후레쉬 기능을 지원하지 않는 기기입니다.",Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        public void cameraFlashOFF() {
+            //TODO [hasSystemFeature FEATURE_CAMERA_FLASH 사용해 후레쉬 지원 체크 실시]
+            if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) { // [카메라 후레쉬 기능 지원]
+                try {
+                        mCameraManager = (CameraManager) getSystemService(CAMERA_SERVICE); // [카메라 객체 서비스 생성]
+                        String cameraId = ""; // [카메라 아이디 값 저장]
+                        for (String id : mCameraManager.getCameraIdList()) { // [카메라 아이디 값 찾음]
+                            CameraCharacteristics c = mCameraManager.getCameraCharacteristics(id);
+                            Boolean flashAvailable = c.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+                            Integer lensFacing = c.get(CameraCharacteristics.LENS_FACING);
+                            if (flashAvailable != null && lensFacing == CameraCharacteristics.LENS_FACING_BACK) {
+                                cameraId = id;
+                                break;
+                            }
+                        }
+                        if (cameraId != null && cameraId.length() > 0 && !cameraId.equals("") && !cameraId.contains("null")) {
+                            if (mCameraFlag == true) { // [카메라 ON 상태인 경우]
+                                mCameraManager.setTorchMode(cameraId, false);
+                                mCameraFlag = false;
+                            }
+                        } else {
+                            mCameraFlag = false;
+                            Toast.makeText(getApplication(), "카메라 아이디 값을 확인하지 못했습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                } catch (Exception e) {
+                    mCameraFlag = false;
+                    e.printStackTrace();
+                }
+            } else { // [카메라 후레쉬 기능 지원 안함]
+                mCameraFlag = false;
+                Toast.makeText(getApplication(), "카메라 후레쉬 기능을 지원하지 않는 기기입니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    ```
+    </details>
+
+</br>
+
+### Android DB 연동 - SQLite
+
+</br>
+
+<img width="780" alt="image" src="https://user-images.githubusercontent.com/40768187/178113818-4f42bbad-2843-4f6c-b064-18b973b34f5b.png">
+
+</br>
+
+- Cursor: 특정 record 지정, 데이터 반환
+    
+    - 코드 예제
+
+        ```java
+        //모든 레코드 반환
+        Cursor allRCD = db.query("members", null, null, null, null, null, null, null);
+
+        //Name = google 레코드 반환
+        Cursor allRCD = db.query("members", null, "Name = 'google'", null, null, null, null, null);
+
+        String strName = allRCD.getString(1);   //Name 반환
+
+        long lgPhoneNo = allRCD.getString(2);   //Phone_No 반환
+        ```
+
+    - Cursor interface의 Method
+
+        <img width="823" alt="image" src="https://user-images.githubusercontent.com/40768187/178114276-8e2c0869-03dd-405d-b2fb-e7b5f33fccc1.png">
+
+</br>
+
+- ContentValues: record와 동일, 데이터 저장
+
+    ```java
+        ContentValues insertValue = new ContentValues();    //데이터 입력
+        insertValue.put("CarType", "Benz320");
+        insertValue.put("CarPower", "3200");
+        db.insert("Carlist", null, insertValue);    //레코드 추가
+    ```
+
+</br>
+
+### Sensor Code - 응용
+</br>
+
+<img width="508" alt="image" src="https://user-images.githubusercontent.com/40768187/178114501-15a4a607-cfac-4b37-9d6d-6f26ee8f1e47.png">
+
+</br>
+
+-  위 그림과 같이 Carlist 테이블에 입력 데이터를 저장하도록 [Insert] Button event handler를 구현
+-  ListView에서 해당 item을 클릭하면 해당 item을 "CarType"과 "CarPower"로 분리하여 각 editText에 지정하도록 구현
+-  각 Button Event Handelr 구현
+
+</br>
+
+1. UI 설계
+
+    <details>
+    <summary>코드 보기</summary>
+
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+
+        <TextView
+            android:id="@+id/textTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Car Mnage System"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:layout_marginLeft="17dp"/>
+
+        <TextView
+            android:id="@+id/txtCarType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/textTitle"
+            android:text="Type :"
+            android:layout_marginTop="34dp"
+            android:layout_marginLeft="5dp"/>
+
+        <EditText
+            android:id="@+id/editCarType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="8"
+            android:layout_alignBaseline="@+id/txtCarType"
+            android:layout_alignBottom="@+id/txtCarType"
+            android:layout_marginLeft="14dp"
+            android:layout_toRightOf="@+id/txtCarType"/>
+        <requestFocus/>
+
+        <TextView
+            android:id="@+id/txtCarPower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Power :"
+            android:layout_below="@+id/editCarType"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp" />
+
+
+        <EditText
+            android:id="@+id/editCarPower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="8"
+            android:layout_alignLeft="@+id/editCarType"
+            android:layout_below="@+id/editCarType"/>
+
+        <Button
+            android:id="@+id/btnInsert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Insert"
+            android:textSize="12dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/txtCarType"/>
+
+        <Button
+            android:id="@+id/btnUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update"
+            android:textSize="12dp"
+            android:layout_alignBottom="@id/txtCarPower"
+            android:layout_alignParentEnd="true"/>
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:textSize="12dp"
+            android:layout_below="@id/btnUpdate"
+            android:layout_alignParentEnd="true"/>
+
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:textSize="12dp"
+            android:layout_below="@id/btnDelete"
+            android:layout_alignParentEnd="true"/>
+
+        <ListView
+            android:id="@+id/lstMember"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnSearch" />
+
+    </RelativeLayout>
+    ```
+    </details>
+
+</br>
+
+2. DB 연동
+
+    ```java
+    public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+        //eventListener를 implements 를 사용하고, setOnClickListenr(this) 로 구현해주면 코드 가독성이 좋아짐
+
+        SQLiteDatabase db;
+        ArrayList<String> aryMBRList;
+        ArrayAdapter<String> adtMembers;
+        ListView listView;
+
+        String strRecord = null;
+        ContentValues insertValue;
+        Cursor allRCD;
+
+        Button btnInsert, btnUpdate, btnDelete, btnSearch;
+        EditText edtCarType, edtCarPower;
+    ```
+</br>
+
+3. ListView item click event handler
+
+    ```java
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        edtCarType = findViewById(R.id.editCarType);
+        edtCarPower = findViewById(R.id.editCarPower);
+
+        btnInsert = findViewById(R.id.btnInsert);
+        btnInsert.setOnClickListener(this);
+
+        btnUpdate = findViewById(R.id.btnUpdate);
+        btnUpdate.setOnClickListener(this);
+
+        btnDelete = findViewById(R.id.btnDelete);
+        btnDelete.setOnClickListener(this);
+
+        btnSearch = findViewById(R.id.btnSearch);
+        btnSearch.setOnClickListener(this);
+
+        listView = findViewById(R.id.lstMember);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            //listView 중 한 항목을 클릭했을 때의 Listener
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String[] data = aryMBRList.get(position).toString().split("\t\t");
+
+                edtCarType.setText(data[0]);
+                edtCarPower.setText(data[1]);
+            }
+        });
+    ```
+
+</br>
+
+4. Create DB
+
+    ```java
+        //onCreate() 내에 작성된 코드
+            db = this.openOrCreateDatabase("CarInformation", MODE_PRIVATE, null);
+
+            //SQL 작성법 1
+            db.execSQL("Drop table if exists Carlist");
+
+            db.execSQL("Create table Carlist (" + " _id integer primary key autoincrement, " + "CarType text not null, " + "CarPower text not null);");
+            db.execSQL("Insert into Carlist " + "(CarType, CarPower) values ('BMW 528i', '2800');");
+
+            //SQL 작성법 2
+            insertValue = new ContentValues();
+            insertValue.put("CarType", "Benz320");
+            insertValue.put("CarPower", "3200");
+            db.insert("Carlist", null, insertValue);
+
+            getDBData(null);
+
+            if(db != null) db.close();
+    ```
+</br>
+
+5. getDBData() method: Get DB data from Carlist table
+
+    ```java
+        public void getDBData(String strWhere){
+            allRCD = db.query("Carlist", null, strWhere, null, null, null, null, null);
+
+            aryMBRList = new ArrayList<>();
+
+            if(allRCD != null){
+                if(allRCD.moveToFirst()){
+                    do{
+                        strRecord = allRCD.getString(1) + "\t\t" + allRCD.getString(2);
+                        aryMBRList.add(strRecord);  //arrayList 에 추가
+                    }while(allRCD.moveToNext());
+                }
+            }
+
+            adtMembers = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, aryMBRList);
+
+            listView.setAdapter(adtMembers);
+            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        }
+    ```
+
+6. Button EventHandler 구현
+
+    ```java
+        @Override
+        public void onClick(View v) {
+            db = this.openOrCreateDatabase("CarInformation", MODE_PRIVATE, null);
+
+            if(v == btnInsert){
+                insertValue = new ContentValues();
+                insertValue.put("CarType", edtCarType.getText().toString());
+                insertValue.put("CarPower", edtCarPower.getText().toString());
+                db.insert("Carlist", null, insertValue);
+
+                getDBData(null);
+            }
+            else if(v == btnUpdate){
+                db.execSQL("update Carlist set CarType = " + "'" + edtCarType.getText().toString() + "', " +
+                        "CarPower = " + "'" + edtCarPower.getText().toString() + "'" + "where CarType = " + "'" + edtCarType.getText().toString() + "'" + ';');
+                getDBData(null);
+            }
+            else if(v == btnDelete){
+                db.execSQL("delete from Carlist where CarType = " + "'"+ edtCarType.getText().toString()+"'" +";");
+                getDBData(null);
+            }
+            else if(v == btnSearch){
+                String strSQL = "CarType = '" + edtCarType.getText().toString() + "'" ;
+                getDBData(strSQL);
+            }
+
+            if(db != null) db.close();
+        }
+    ```
+
+### Android DB 확인
+
+0. AVD 로 앱을 실행 중인 상태여야 함
+
+1. 파일 경로 확인
+
+    ```Android``` > ```SDK``` > ```platform-tools```
+
+    </br>
+
+   - 파일 경로
+
+       Appdata 파일이 숨김처리 되어있을 수 있음
+
+       **Window**  ```C:\Users\Won-Joo\AppData\Local\Android\sdk\platform-tools``` </br>
+
+       User 폴더에서 오른쪽 클릭 후 ```보기 옵션``` > ```라이브러리 폴더 보기``` 클릭 > 라이브러리 > ```Android``` 파일 확인</br>
+
+       **Mac**  ```/Users/seoyejin/Library/Android/sdk/platform-tools```
+
+</br>
+
+2. 명령 프롬프트 실행
+   
+   위에서 확인한 경로로 이동 후 ```abd shell``` 명령어 실행
+
+    <img width="596" alt="image" src="https://user-images.githubusercontent.com/40768187/178128225-01e0d91d-9251-44de-8a45-fa0ee47e765e.png">
+
+    위 사진의 상태에서 ```su``` 로 권한 획득 후 아래 명령어 실행
+
+   ```shell
+   cd /data/data/<패키지명>.<프로젝트명>
+
+   cd ./Database     # mac 에서는 /database 였음
+
+   sqlite3 <database 이름>
+
+   .table
+
+   Select * from <table 이름>; # table 에 저장된 데이터 확인
+   ```
+
+    <img width="743" alt="image" src="https://user-images.githubusercontent.com/40768187/178128294-51cfcac6-c87e-42c9-86fd-da722267e29b.png">
+
+</br>
+
+### Android DB 연동 - Firebase
+
+</br>
+
+#### Firebase?
+
+- Mobile, Web Application Development Platform
+- NoSQL Cloud Real-time Database
+
+**특징**
+- 데이터는 JSON 으로 저장
+- 모든 Client 에 실시간으로 동기화
+- App 이 오프라인일 때도 데이터 사용
+- iOS, Android, 자바스크립트 SDK 로 교차 플랫폼 앱 개발
+  - 모든 클라이언트가 하나의 실시간 데이터베이스 인스턴스 공유
+  - 자동 업데이트로 최신 데이터 수신
+
+</br>
+
+#### Implementaion path
+
+</br>
+
+<img width="836" alt="image" src="https://user-images.githubusercontent.com/40768187/178128398-f08180c6-70ac-4a71-8ea3-7d469514efc6.png">
+
+</br>
+
+#### Firebase 연동 사전 준비
+
+- Prerequisites
+  - Android Studio (Latest version)
+  - Project Requirements 
+    - API 16 or later
+    - Gradle 4.1 or later
+  - Physical device or Emulator with Google Play
+  - Google account
+
+</br>
+
+#### Firebase 연동 방법 2가지
+
+1. Firebase console (recommended)
+2. Android Studio Firebase Assistant
+
+</br>
+
+#### Cloud Firestore vs. Realtime Database
+
+- Cloud Firestore
+
+    Realtime Database 보다 더 풍부하고 빠른 쿼리를 제공함</br>
+    데이터의 용량이 많을 경우 Firestore 를 사용하는 것이 더 좋음
+
+- Realtime Database
+
+    클라이언트 간에 실시간으로 동기화된 상태가 필요한 모바일 앱을 위한 효율적이고 대기 시간이 짧음
+
+</br>
+
+#### Realtime Database Event Handler
+
+- addValueEventListener()
+  - 데이터의 변화가 있을 때 Call
+  - Firebase DB 에서 전체 객체 (JSON 구조) read
+
+| Function Name  | Document                                        |
+| -------------- | ----------------------------------------------- |
+| onDataChange() | DB에 데이터가 변화(추가 등)가 있을 때 자동 호출 |
+| onCancelled()  | DB에 통신 실패 등 오류가 발생했을 때 자동 호출  |
+
+- addChildEventListener()
+  - 데이터가 추가되었을 때 Call
+  - Firebase DB에 지정한 child 객체만 read
+
+<img width="904" alt="image" src="https://user-images.githubusercontent.com/40768187/178147564-3f67fdcb-18e6-43d3-b305-9d78e6c0cd4b.png">
+
+</br>
+
+#### 실습
+
+</br>
+
+<img width="507" alt="image" src="https://user-images.githubusercontent.com/40768187/178148151-39005d11-12ed-42d5-987a-c2975f0382ff.png">
+
+</br>
+
+#### Firebase Console 방법
+
+</br>
+
+**Code 작성**
+
+1. UI 설계
+
+    <details>
+    <summary>코드 보기</summary>
+
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Customer Relationship Management"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="70dp"
+            android:text="Name :"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <EditText
+            android:id="@+id/edtCustomerName"
+            android:layout_width="202dp"
+            android:layout_height="48dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="26dp"
+            android:layout_marginEnd="39dp"
+            app:layout_constraintEnd_toStartOf="@+id/btnInsert"
+            app:layout_constraintStart_toEndOf="@+id/txtName"
+            app:layout_constraintTop_toBottomOf="@+id/txtTitle"
+            />
+
+        <TextView
+            android:id="@+id/txtPhoneNo"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_marginTop="20dp"
+            android:text="Phone_No :"
+            app:layout_constraintTop_toBottomOf="@+id/txtName"
+            app:layout_constraintEnd_toStartOf="@+id/edtCustomerPhoneNo"
+            app:layout_constraintStart_toStartOf="@+id/txtName"
+        />
+
+        <EditText
+            android:id="@+id/edtCustomerPhoneNo"
+            android:layout_width="202dp"
+            android:layout_height="48dp"
+            android:ems="10"
+
+            android:inputType="phone"
+            app:layout_constraintStart_toEndOf="@+id/txtPhoneNo"
+            app:layout_constraintTop_toBottomOf="@id/edtCustomerName"
+            app:layout_constraintStart_toStartOf="@id/edtCustomerName"
+            />
+
+        <Button
+            android:id="@+id/btnInsert"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Insert"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edtCustomerPhoneNo"/>
+
+
+        <EditText
+            android:id="@+id/txtFirebase"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="[ Firebase Value ]"
+            android:layout_marginEnd="11dp"
+            android:layout_marginBottom="18dp"
+            android:layout_marginStart="11dp"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnInsert"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    ```
+    </details>
+
+2. AndroidManifest 에서 권한 주기
+
+    ```xml
+        <uses-permission android:name="android.permission.INTERNET"/>
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    ```
+    작성하면서 안 사실인데, Android Studio Assistant 사용 시에는 위 구문을 작성할 필요가 없음
+
+</br>
+
+3. MainActivity
+
+    ```java
+        FirebaseDatabase myFirebase;    // Firebase Object
+        DatabaseReference databaseReference = null;     // Firebase DB Reference
+
+        // HashMap<String, Object> childNode = null;
+        HashMap<String, Object> Customer_Value = null;
+
+        TextView txtFirebase;
+        EditText edtCustomerName;
+        Button btnInsert;
+        String strHeader = "Customer Information";      // Firebase Key
+        String strCName = null;
+
+        String strCphone_No = null;
+        EditText edtCustomerPhone_No;
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+
+            txtFirebase = findViewById(R.id.txtFirebase);
+            edtCustomerName = findViewById(R.id.edtCustomerName);
+            edtCustomerPhone_No = findViewById(R.id.edtCustomerPhoneNo);
+
+            btnInsert = findViewById(R.id.btnInsert);
+            btnInsert.setOnClickListener(this);
+
+            myFirebase = FirebaseDatabase.getInstance();        // Get FirebaseDatabase Instance
+            databaseReference = myFirebase.getReference();      // Get Firebase Reference
+
+            Customer_Value = new HashMap<>();       // Create HashMap
+        }
+    ```
+
+</br>
+
+- [Insert] button event handler
+
+    ```java
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.btnInsert:
+                    strCName = edtCustomerName.getText().toString();
+                    strCphone_No = edtCustomerPhone_No.getText().toString();
+
+                    if(!strCName.equals("")){
+                        Customer_Value.put("Name", strCName);       // HashMap("Name", strCName)
+                        Customer_Value.put("Phone_No", strCphone_No);
+
+                        mSet_FirebaseDatabase(true);    // App -> Firebase DB
+                        mGet_FirebaseDatabase();        // Firebase DB -> App
+                    }
+                    edtCustomerName.setText("");
+                    edtCustomerPhone_No.setText("");
+                    break;
+                default:
+                    edtCustomerName.setText("");
+                    edtCustomerPhone_No.setText("");
+                    break;
+            }
+        }
+    ```
+
+- mSetFirebaseDatabase()
+  - Data : App -> Firebase DB
+
+    ```java
+        private void mGet_FirebaseDatabase() {
+            ValueEventListener postListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    txtFirebase.setText("Firebase Value : ");
+                    long iRecordCount = snapshot.getChildrenCount();
+                    int iCnt = 0;
+
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()){
+                        iCnt++;
+                        String strKey = postSnapshot.getKey();
+                        Object strValue = postSnapshot.getValue();
+
+                        txtFirebase.append("\n" + iCnt + " : " + strKey);
+                        txtFirebase.append("\n" + "\t = " + strValue);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.w("Tag: ", "Failed to read value", error.toException());
+                }
+            };
+
+            Query sortbyName = FirebaseDatabase.getInstance().getReference().child(strHeader).orderByChild(strCName);
+            sortbyName.addListenerForSingleValueEvent(postListener);
+        }
+    ```
+
+- mGetFirebaseDatabase()
+  - Data : Firebase DB -> App
+
+    ```java
+    private void mSet_FirebaseDatabase(boolean b) {
+            // bFlag = true(add) / false(delete)
+            if(b){
+                databaseReference.child(strHeader).child(strCphone_No).setValue(Customer_Value);
+            }
+        }
+    ```
+
+</br>
+
+**Firebase 프로젝트 생성, 앱 등록**
+
+https://firebase.google.com/?hl=ko
+
+</br>
+
+1. 프로젝트 이름 작성 > 애널리틱스 on/off > 애널리틱스 계정 선택 후 ```프로젝트 만들기```
+
+    <img width="1657" alt="image" src="https://user-images.githubusercontent.com/40768187/178149096-1e716eb9-802b-4652-8c0e-b3c55e946aa2.png">
+    <img width="944" alt="image" src="https://user-images.githubusercontent.com/40768187/178149112-9330928e-9bc2-4013-943a-c7aac31d67cb.png">
+    <img width="1306" alt="image" src="https://user-images.githubusercontent.com/40768187/178149141-74a77d92-656f-4682-94ee-676e22d05e5e.png">
+
+</br>
+
+1. 안드로이드 앱 정보 작성
+
+    <img width="1020" alt="image" src="https://user-images.githubusercontent.com/40768187/178149366-8826a1d2-daa3-4bbf-bc7b-b432c74f7890.png">
+    
+    <img width="678" alt="image" src="https://user-images.githubusercontent.com/40768187/178149464-0719b966-7f40-4d07-890c-907f24b80c93.png">
+
+    </br>
+
+2. json 파일 프로젝트에 추가
+
+    <img width="839" alt="image" src="https://user-images.githubusercontent.com/40768187/178149498-714554b7-94e5-4f4c-9fc9-61424ddb6b78.png">
+
+</br>
+
+4. build gradle 설정
+
+    <img width="677" alt="image" src="https://user-images.githubusercontent.com/40768187/178149514-e84bf1fc-384a-43b9-bb86-9880347a4907.png">
+
+    위의 설정은 ```build.gradle(Project)``` 에, 아래 설정은 ```build.gradle(Module)``` 에 작성하면 됨 </br>
+    ~~그러나 위에서 안내한 대로 설정하면 오류가 발생함~~
+
+    다음과 같이 작성해서 해결했음 (Project 수준의 설정 파일)
+
+    ```gradle
+    buildscript {           //build 관련 설정은 상단에 작성해야 함 
+        dependencies {
+            // Add this line
+            classpath 'com.google.gms:google-services:4.3.13'
+
+        }
+    }
+    
+    // repositories 설정을 제외한 이유는 settings.gradle 에 이미 포함된 상태이기 때문임
+
+    plugins {
+        id 'com.android.application' version '7.2.1' apply false
+        id 'com.android.library' version '7.2.1' apply false
+    }
+
+    task clean(type: Delete) {
+        delete rootProject.buildDir
+    }
+    ```
+ 
+    </br>
+
+    Module 수준의 설정 코드는 그대로 작성함
+    ```gradle
+    apply plugin: 'com.android.application'
+    apply plugin: 'com.google.gms.google-services'
+
+    # plugins{ } 내부에 id 'com.android.application' 이라 작성해도 됨
+
+    dependencies {
+
+        implementation 'androidx.appcompat:appcompat:1.4.2'
+        implementation 'com.google.android.material:material:1.6.1'
+        implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+        implementation 'com.google.firebase:firebase-database:20.0.0'
+        testImplementation 'junit:junit:4.13.2'
+        androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+        androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+        implementation platform('com.google.firebase:firebase-bom:30.2.0')
+        implementation 'com.google.firebase:firebase-analytics'
+    }
+    ```
+
+</br>
+
+5. 실시간 데이터베이스 규칙 설정
+
+    <img width="800" alt="image" src="https://user-images.githubusercontent.com/40768187/178150259-ff68a372-0d3e-4d09-a4b6-51200175c477.png">
+
+</br>
+
+6. 연결 완료!
+
+    <img width="497" alt="스크린샷 2022-07-11 오전 12 02 43" src="https://user-images.githubusercontent.com/40768187/178150449-99aed8dd-430b-4c14-8693-d49deb3f3cd4.png">
+
+</br>
+
+#### Android Studio Assistant
+</br>
+
+Android Studio 에서 ```Tools``` > ```Firebase``` > ```Realtime Database```
+
+<img width="746" alt="image" src="https://user-images.githubusercontent.com/40768187/178150551-a2331a18-6892-4aea-9b19-e3baaa609c86.png">
+
+</br>
+
+왼쪽 탭에서 ```Connect to Firebase``` 클릭 후 콘솔 내의 프로젝트 접속 후 ```연결```
+
+<img width="860" alt="image" src="https://user-images.githubusercontent.com/40768187/178150726-26c76701-6633-43b1-b72b-ade1a48d0642.png">
+
+</br>
+
+왼쪽 탭에서 ```Add the Realtime Database SDK to your app``` 클릭 후 > ```Accept Changes```
+
+</br>
+
+연결이 되면 다음과 같이 바뀜
+
+<img width="1119" alt="image" src="https://user-images.githubusercontent.com/40768187/178150691-9aca553b-a595-490b-97a6-e2b2492cbaa0.png">
+
+</br>
+
+위에서 설정한 build.gradle 파일과 동일하게 코드 작성해주면 됨
+
+Java 코드도 위에서 작성한 대로 하면 됨
+
+</br>
+
++) DTO 클래스 작성해보기
+
+</br>
+
+DTO?
+- 계층간 데이터 교환을 위한 객체
+- DB에 만들어진 필드와 1:1 대응하는 변수 + getter/setter 를 가진 클래스
+
+</br>
+
+```java
+package com.example.android_firebase2;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class CustomerInfo {
+
+    public String strName;
+    public String strPhone_No;
+
+    public CustomerInfo(String Name, String Phone_No){
+        this.strName = Name;
+        this.strPhone_No = Phone_No;
+    }
+
+    public void mSet_CInfo(String Name, String Phone_No){
+        this.strName = Name;
+        this.strPhone_No = Phone_No;
+    }
+
+    public String mGet_CPhone_No(){
+        return strPhone_No;
+    }
+
+    public String mGet_CName(){
+        return strName;
+    }
+
+    public Map<String, Object> toMap(){
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("Name", strName);
+        result.put("Phone_No", strPhone_No);
+
+        return result;
+    }
+}
+```
