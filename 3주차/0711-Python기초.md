@@ -203,7 +203,7 @@ print("합은 ", sum)
 - 줄바꿈을 없애기 -> ```end``` 인자 설정 (default: \n)
 - 콤마로 구분된 문자열 다르게 결합 -> ```sep``` 인자 설정 (default: 공백)
 
-    ```
+    ```python
     >>> print("No new line"), end="####"); print("ok?")
     No new line####ok?
 
