@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Profile</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#00BCD4">
+
+    <link rel="stylesheet" href="./css/skeleton.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+</head>
+
+<body>
+
+    <nav class="navbar clearfix">
+        <h1 class="logo"><a href="./index.html">Profile</a></h1>
+        <ul class="nav">
+            <li><a>SKT-FLYAI</a></li>
+            <li><a>AIZO</a></li>
+        </ul>
+    </nav>
+
+    <main class="about-content">
+
+        <div class="container">
+            <div class="row">
+                <div class="twelve columns">
+                    <div class="box-center">
+                        <form>
+                            <div class="row mb-3">
+
+                                <label for="text-input" class="col-sm-2 col-form-label">Title</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" name="title" placeholder="포트폴리오 제목을 입력해주세요"
+                                        th:field="*{title}" id="text-input">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+
+                                <label for="text-input" class="col-sm-2 col-form-label">Title</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" name="title" placeholder="포트폴리오 제목을 입력해주세요"
+                                        th:field="*{title}" id="text-input">
+                                </div>
+                            </div>
+                            <input class="btn-write" type="submit">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</html>
