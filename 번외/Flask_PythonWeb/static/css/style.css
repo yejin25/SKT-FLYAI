@@ -1,0 +1,68 @@
+.profile-user-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 70%;
+    overflow: hidden;
+    display: block;
+    margin: 0px auto;
+}
+
+.profile-user-img-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.box {
+    float: left;
+    padding: 50px;
+}
+
+.box-center {
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: solid 2px #ffa60b;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: both;
+}
+
+.btn-write {
+    background-color: #ffa60b;
+    font-size: 1.6rem;
+    float: right;
+    margin-bottom: 20px;
+}
+
+.card-list {
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.mini-img {
+    width: 15px;
+    height: 15px;
+}
+
+.btn-delete {
+    border: 0px;
+    float: right;
+    padding: 0px;
+}

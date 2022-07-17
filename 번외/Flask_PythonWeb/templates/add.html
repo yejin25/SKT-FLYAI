@@ -11,15 +11,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#00BCD4">
 
-    <link rel="stylesheet" href="./css/skeleton.css">
-    <link rel="stylesheet" href="./css/main.css">
-    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <link rel="stylesheet" href="../static/css/skeleton.css">
+    <link rel="stylesheet" href="../static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
 </head>
 
 <body>
 
     <nav class="navbar clearfix">
-        <h1 class="logo"><a href="./index.html">Profile</a></h1>
+        <h1 class="logo"><a href="/">Profile</a></h1>
         <ul class="nav">
             <li><a>SKT-FLYAI</a></li>
             <li><a>AIZO</a></li>
@@ -32,24 +32,26 @@
             <div class="row">
                 <div class="twelve columns">
                     <div class="box-center">
-                        <form action="" method="post">
+                        <form action="/add" method="post">
                             <div>
-
-                                <label for="text-date">Title</label>
                                 <div>
-                                    <input type="text" name="date" placeholder="July.2022 - present" id="text-date">
+                                    <input type="hidden" name="user_id" value='{{ user_id }}' >
+                                </div>
+                                <label for="text-date">Date</label>
+                                <div>
+                                    <input type="text" name="date" placeholder="July.2022 - present" id="text-date" required>
                                 </div>
                             </div>
                             <div>
-                                <label for="text-description">Title</label>
+                                <label for="text-description">Description</label>
                                 <div>
-                                    <input type="text" name="description" placeholder="프로젝트 설명" id="text-description">
+                                    <input type="text" name="description" placeholder="프로젝트 설명" id="text-description" required>
                                 </div>
                             </div>
                             <div>
-                                <label for="text-link">Title</label>
+                                <label for="text-link">Link</label>
                                 <div>
-                                    <input type="text" name="link" placeholder="프로젝트 링크" id="text-link">
+                                    <input type="text" name="link" placeholder="프로젝트 링크" id="text-link" required>
                                 </div>
                             </div>
                             <input class="btn-write" type="submit">
