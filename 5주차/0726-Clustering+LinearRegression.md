@@ -34,6 +34,8 @@
 
 <img width="540" alt="image" src="https://user-images.githubusercontent.com/40768187/181934336-8ad98ee2-461c-44b6-b757-6309da7e63b5.png">
 
+</br>
+
 - 적당한 k 를 선택하는 방법
 - 관측치와 중심들 사이의 거리
 - 군집들이 얼만큼 뭉쳐져 있는지를 나타내는 지표
@@ -53,6 +55,8 @@
 
 - 차원이 증가하면 정보의 밀도 감소 (필요한 데이터의 수가 지수 함수적 증가)
 - 정보의 감소로 과적합 문제 발생하기 쉬움
+
+</br>
 
 <img width="1279" alt="image" src="https://user-images.githubusercontent.com/40768187/182143587-9bd69346-5f21-49e1-8010-8be16b124cb7.png">
 
@@ -74,6 +78,8 @@
 
 - 차원 축소 알고리즘의 주요한 접근법의 하나
 
+</br>
+
 <img width="600" alt="image" src="https://user-images.githubusercontent.com/40768187/182144549-db880429-9253-47dd-83c6-e3a0089cb56b.png">
 
 </br>
@@ -94,6 +100,8 @@
 
 <img width="247" alt="image" src="https://user-images.githubusercontent.com/40768187/182153873-795dc727-7e86-4c53-b647-cf9323795839.png">
 
+</br>
+
 - 독립변수와 종속변수를 선형적인 관계로 가정하고, 데이터를 가장 잘 나타내는 선형식 찾기
 - 종속 변수 Y를 독립변수 X들의 선형 결합으로 표현한 모델 (선형 회귀 모델)
 
@@ -102,6 +110,8 @@
 ### 단순 선형 회귀
 
 <img width="121" alt="image" src="https://user-images.githubusercontent.com/40768187/182165769-73ad2200-57b6-477d-ba98-f5930b57830f.png">
+
+</br>
 
 - 독립 변수가 1개인 선형 회귀
 - 가설 ^y 중에서 데이터를 가장 잘 설명하는 직선 하나를 찾아야 하는 문제
@@ -120,6 +130,8 @@
 
 <img width="435" alt="image" src="https://user-images.githubusercontent.com/40768187/182173645-e29a2354-817f-4061-a141-671e947864d6.png">
 
+</br>
+
 - 오차를 제곱해서 다 더한 것
 - ```^y``` : 예측값 (y = predict())
 
@@ -128,6 +140,8 @@
 ### 평균 제곱 오차 (Mean Squared Error)
 
 <img width="481" alt="image" src="https://user-images.githubusercontent.com/40768187/182174898-08814343-b539-4d0d-82f6-69c9121cb4d3.png">
+
+</br>
 
 - 잔차 제곱합에 1/n 을 해준 것
 - 가장 작은 값이 가장 좋은 직선
@@ -140,6 +154,8 @@
 - 정답과 예측의 차이(Loss)를 계산하는 함수
 - **회귀 알고리즘은 손실함수가 최소가 되는 파라미터를 찾는 문제**
 - RSS, MSE, MAE(Mean Absolute Square), RMSE(Root Mean Squared Square)
+
+</br>
 
 <img width="373" alt="image" src="https://user-images.githubusercontent.com/40768187/182177033-16d8284c-4b20-4595-bb9a-1e51fd27c779.png"> <img width="323" alt="image" src="https://user-images.githubusercontent.com/40768187/182177102-516a9936-effe-4e34-aca0-cf61b2ecddc8.png">
 
@@ -156,6 +172,8 @@
 
 <img width="351" alt="image" src="https://user-images.githubusercontent.com/40768187/182177507-3cecdbaa-ab8f-4cc7-a0e7-59ac824162c0.png">
 
+</br>
+
 - 최소가 되는 β0, β1 결정
 
 
@@ -171,3 +189,135 @@
 
     <img width="709" alt="image" src="https://user-images.githubusercontent.com/40768187/182180888-eb26d2e2-468a-4527-b04a-88617671025b.png">
     <img width="390" alt="image" src="https://user-images.githubusercontent.com/40768187/182180948-f28800ee-b013-46cb-9380-3fdd2b0c036b.png">
+
+
++) 조금씩 움직이면서 기울기 0인 부분으로 가려함 (양수면 작아지려 노력, 음수면 커지력 노력)
+
+</br>
+
+<img width="807" alt="image" src="https://user-images.githubusercontent.com/40768187/182388660-983b0556-cb55-4f6d-a3b9-b7fc336c5c20.png">
+
+</br>
+
+- 위 그림은 계산을 간단히 하기 위해 가설을 ^y = βx 로 변경함
+- 기울기가 0 될 때까지 계속함
+- 정해진 횟수 만큼 반복함
+
+</br>
+
+<img width="700" alt="image" src="https://user-images.githubusercontent.com/40768187/182390479-3e350f6a-b42e-4eba-8ec6-388fd406edab.png">
+
+</br>
+
+- 학습율에 따라 움직이는 크기 달라짐
+- 학습율(하이파라미터) 오른쪽에 곱해진게 기울기
+
+**대부분의 딥러닝은 경사하강법으로 되어있음**
+
+</br>
+
+### 이상적인 손실함수 : Convex Function
+
+<img width="700" alt="image" src="https://user-images.githubusercontent.com/40768187/182391091-14b96a02-278e-40dc-8eb7-dcf5e7fe20a4.png">
+
+</br>
+
+### 이상적이지 못한 손실함수 
+<img width="394" alt="image" src="https://user-images.githubusercontent.com/40768187/182391251-fc226726-43c6-407e-bc96-b031e640e1f4.png">
+
+</br>
+
+- 어디에서 시작하느냔에 따라 시간이 걸리는 것이 다름
+- 그래프의 가장 왼쪽에서 시작하면 local minimum에 한번은 떨어짐 
+- 이를 벗어나기 위한 GD의 변형을 사용할 수 있음
+- 모멘텀이라는 계수에 의해 내려올수록 속도가 빨라져서 local minimum에 한번 안떨어지고 그래프 언덕을 넘을 수 있음
+
+</br>
+
+### 특성 스케일링
+
+<img width="671" alt="image" src="https://user-images.githubusercontent.com/40768187/182395905-e2738c81-8328-45eb-85b6-0e7992b5b7fe.png">
+
+</br>
+
+- 오른쪽 그림은 변수1이 변수2보다 스케일이 작은 훈련데이터인 경우
+- 변수1의 스케일이 훨씬 작기 때문에 비용함수를 변화시키기 위해 세타1이 더 크게 바뀌어야 해서 좌우로 긴 형태가 됨
+- 최솟값에 도달은 하겠지만 매우 시간이 오래걸림
+- **경사하강법 이용 시에는 반드시 모든 변수들 스케일링 해줄것**
+
+</br>
+
+### 배치 경사 하강법
+
+<img width="750" alt="image" src="https://user-images.githubusercontent.com/40768187/182406762-9b424958-10e1-448d-9151-e89e96f0d814.png">
+
+</br>
+
+- 배치 경사 하강법 (Batch Gradient Descent) : 데이터 10만개가 있으면 계산을 한번에 다 함
+- 확률적 경사 하강법 (Stochastic Gradient Descent, SGD) : 전체가 아닌 데이터 한 개만 뽑아서 경사를 구해서 함
+- 미니 배치 경사 하강법 (Mini-batch Gradient Descent) : 10만개 중 1000개 단위(하이퍼파라미터)로 보고 옆으로 계속 경사구해서 이동
+
+</br>
+
+### 경사하강법 손계산
+
+<img width="791" alt="image" src="https://user-images.githubusercontent.com/40768187/182421281-ccefe123-8d11-46e5-9612-d6d21a46ff66.png">
+
+<img width="350" alt="image" src="https://user-images.githubusercontent.com/40768187/182422133-9603dc3e-f57f-43ca-8ffc-1770d36dcc9d.png"> <img width="327" alt="image" src="https://user-images.githubusercontent.com/40768187/182422161-54d1dda7-4d94-4808-8dc3-c5cf95ce05a7.png">
+
+</br>
+
+## 📌 다중 회귀 (multivariable Linear Regression)
+
+### 다중 회귀?
+
+<img width="296" alt="image" src="https://user-images.githubusercontent.com/40768187/182420095-22532a5d-783b-451f-96f0-013721cf6e54.png">
+
+- 독립변수가 여러 개인 선형회귀 모델
+
+</br>
+
+### 다중 회귀의 손실 함수
+
+<img width="477" alt="image" src="https://user-images.githubusercontent.com/40768187/182420914-6fb19ea1-67e6-456d-b0ce-7ebc4f73d088.png">
+
+</br>
+
+### 다항 회귀
+
+<img width="213" alt="image" src="https://user-images.githubusercontent.com/40768187/182423443-daf5e14b-d727-407f-ab7e-5fe0a3492df6.png">
+
+</br>
+
+<img width="415" alt="image" src="https://user-images.githubusercontent.com/40768187/182422669-7821c928-b41b-42b2-9e29-5eda531380b8.png">
+
+</br>
+
+- 데이터가 단순한 직선이 아닐 경우 사용
+- 데이터에 각 특성의 거듭제곱을 새로운 특성으로 추가하고, 선형 모델로 학습시키는 기법
+
+</br>
+
+### 규제
+
+- 고차 다항 회귀를 적용하면 과대 적합을 일으키기 쉬움
+- 과대 적합을 일으키는 이유
+  - 모델 자체가 복잡
+  - 학습하기에 데이터 적음
+- 해결법: 모델의 규제를 통해서 다항식의 차수 줄이기 -> 고차항의 계수를 0으로
+
+</br>
+
+### 릿지 규제 (Ridge Regularization, L2)
+
+- 릿지 회귀는 입력 특성의 스케일에 민감하기 때문에 데이터의 스케일에 맞추는 것이 중요
+
+<img width="713" alt="image" src="https://user-images.githubusercontent.com/40768187/182425472-9643a237-1f73-4a5b-9c0d-227fa2af9aeb.png">
+
+</br>
+
+### 라소 규제 (Lasso Regularization, L1)
+
+<img width="442" alt="image" src="https://user-images.githubusercontent.com/40768187/182424656-3c7b03df-ed72-4923-bfa2-2d0c9ac852dc.png">
+
+</br>
