@@ -3,6 +3,18 @@
 
 ## 📌 Clustering
 
+### Clustering vs. Classification
+
+</br>
+
+<img width="539" alt="image" src="https://user-images.githubusercontent.com/40768187/183294189-6018ac71-e9b6-4a89-a5f9-6b61102fb378.png">
+
+</br>
+
+비지도 vs. 지도
+
+</br>
+
 ### 군집화
 
 - 레이블이 없는 데이터 안에서 패턴과 구조를 발견하는 **비지도 학습**
@@ -14,10 +26,11 @@
 ### K-Means Clustering
 
 - k 는 몇 개의 그룹으로 묶을지 결정
-- k 개의 임의의 중심점 배치 (각 중심점 사이의 거리가 최대한 멀어지도록)
-- 각 데이터들을 가장 가까운 중심점으로 할당
-- 해당 군집의 중심으로 이동
-- 더 이상 중심점의 이동이 없을 때까지 반복
+
+1. k 개의 임의의 중심점 배치 (각 중심점 사이의 거리가 최대한 멀어지도록)
+2. 각 데이터들을 가장 가까운 중심점으로 할당
+3. 해당 군집의 중심으로 이동
+4. 더 이상 중심점의 이동이 없을 때까지 반복
 
 </br>
 
@@ -48,6 +61,7 @@
 
 - 공간에서 데이터의 위치를 나타내기 위해 필요한 축(Axis)의 수
 - feature 의 수
+- 데이터가 적은데 feature 가 많으면 학습이 안됨
 
 </br>
 
@@ -91,6 +105,11 @@
 - 첫번째 축에 직교하고 남은 분산을 최대한 보존하는 두번째 축 찾음
 
     <img width="473" alt="스크린샷 2022-08-01 오후 9 14 26" src="https://user-images.githubusercontent.com/40768187/182145556-5277b0e6-e60b-4e63-8672-8cbc1a7e784f.png">
+
+</br>
+
++) 기존의 분산을 보존하는 걸로 투영, 데이터의 분산을 가장 잘 유지하는 축들 -> 주성분, 
+주성분으로 투영함
 
 </br>
 
@@ -195,7 +214,7 @@
 
 </br>
 
-<img width="807" alt="image" src="https://user-images.githubusercontent.com/40768187/182388660-983b0556-cb55-4f6d-a3b9-b7fc336c5c20.png">
+<img width="700" alt="image" src="https://user-images.githubusercontent.com/40768187/182388660-983b0556-cb55-4f6d-a3b9-b7fc336c5c20.png">
 
 </br>
 
